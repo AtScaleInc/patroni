@@ -54,7 +54,7 @@ class ZooKeeper(AbstractDCS):
             hosts = ','.join(hosts)
 
         self._client = KazooClient(hosts, handler=PatroniSequentialThreadingHandler(config['retry_timeout']),
-                                   timeout=config['ttl'], sasl_server_principal=config['sasl_server_principal'],
+                                   timeout=config['ttl'], sasl_server_principal=config.get('sasl_server_principal', None),
                                    connection_retry=KazooRetry(max_delay=1, max_tries=-1, sleep_func=time.sleep),
                                    command_retry=KazooRetry(deadline=config['retry_timeout'], max_delay=1,
                                    max_tries=-1, sleep_func=time.sleep))

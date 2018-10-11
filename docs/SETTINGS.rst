@@ -23,7 +23,7 @@ Bootstrap configuration
     -  **postgresql**:
         -  **use\_pg\_rewind**: whether or not to use pg_rewind
         -  **use\_slots**: whether or not to use replication_slots. Must be False for PostgreSQL 9.3. You should comment out max_replication_slots before it becomes ineligible for leader status.
-        -  **recovery\_conf**: additional configuration settings written to recovery.conf when configuring follower. 
+        -  **recovery\_conf**: additional configuration settings written to recovery.conf when configuring follower.
         -  **parameters**: list of configuration settings for Postgres. Many of these are required for replication to work.
     -  **standby\_cluster**: if this section is defined, we want to bootstrap a standby cluster.
         -  **host**: an address of remote master
@@ -143,9 +143,9 @@ PostgreSQL
 -  **replica\_method**: for each create_replica_methods other than basebackup, you would add a configuration section of the same name. At a minimum, this should include "command" with a full path to the actual script to be executed. Other configuration parameters will be passed along to the script in the form "parameter=value".
 
 REST API
--------- 
+--------
 -  **connect\_address**: IP address (or hostname) and port, to access the Patroni's REST API. It can serve as a endpoint for HTTP health checks (read below about the "listen" REST API parameter), and also for user queries (either directly or via the REST API), as well as for the health checks done by the cluster members during leader elections (for example, to determine whether the master is still running, or if there is a node which has a WAL position that is ahead of the one doing the query; etc.) The connect_address is put in the member key in DCS, making it possible to translate the member name into the address to connect to its REST API.
--  **listen**: IP address (or hostname) and port that Patroni will listen to for the REST API - to provide also the same health checks and cluster messaging between the participating nodes, as described above. to provide health-check information for HAProxy (or any other load balancer capable of doing a HTTP "OPTION" or "GET" checks)  
+-  **listen**: IP address (or hostname) and port that Patroni will listen to for the REST API - to provide also the same health checks and cluster messaging between the participating nodes, as described above. to provide health-check information for HAProxy (or any other load balancer capable of doing a HTTP "OPTION" or "GET" checks)
 -  **Optional**:
         -  **authentication**:
             -  **username**: Basic-auth username to protect unsafe REST API endpoints.
@@ -159,13 +159,15 @@ REST API
 CTL
 ---
 -  **Optional**:
-    -  **insecure**: Allow connections to REST API without verifying SSL certs. 
+    -  **insecure**: Allow connections to REST API without verifying SSL certs.
     -  **cacert**: Specifices the file with the CA_BUNDLE file or directory with certificates of trusted CAs to use while verifying REST API SSL certs.
     -  **certfile**: Specifies the file with the certificate in the PEM format to use while verifying REST API SSL certs. If not provided patronictl will use the value provided for REST API "certfile" parameter.
 
 ZooKeeper
 ----------
 -  **hosts**: list of ZooKeeper cluster members in format: ['host1:port1', 'host2:port2', 'etc...'].
+-  **auth_scheme**: (optional) **digest** or **sasl** Note that "sasl" scheme is requiring "pure-sasl" library to be installed.
+-  **auth_credential**: (optional) the credential -- value depends on scheme. **digest**: user:password; **sasl**: user:password
 
 Watchdog
 --------

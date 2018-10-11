@@ -59,6 +59,12 @@ class ZooKeeper(AbstractDCS):
                                    max_delay=1, max_tries=-1, sleep_func=time.sleep))
         self._client.add_listener(self.session_listener)
 
+        scheme = config.get('auth_scheme', None)
+        if scheme:
+            credential = config.get('auth_credential', None)
+            logger.info('add_auth for scheme: %s, credential: %s', scheme, credential)
+            self._client.add_auth(scheme, credential)
+
         self._fetch_cluster = True
 
         self._orig_kazoo_connect = self._client._connection._connect

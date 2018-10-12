@@ -59,18 +59,25 @@ class ZooKeeper(AbstractDCS):
                                    max_delay=1, max_tries=-1, sleep_func=time.sleep))
         self._client.add_listener(self.session_listener)
 
-        scheme = config.get('auth_scheme', None)
-        if scheme:
-            credential = config.get('auth_credential', None)
-            logger.info('add_auth for scheme: %s, credential: %s', scheme, credential)
-            self._client.add_auth(scheme, credential)
-
         self._fetch_cluster = True
 
         self._orig_kazoo_connect = self._client._connection._connect
         self._client._connection._connect = self._kazoo_connect
 
         self._client.start()
+
+        scheme = config.get('scheme', None)
+        if scheme:
+            from kazoo.security import make_digest_acl
+            username = config.get('username', None)
+            password = config.get('password', None)
+
+            digest_auth = "%s:%s" % (username, password)
+            acl = make_digest_acl(username, password, all=True)
+
+            logger.debug('add_auth for scheme: %s, username: %s, password: %s, digest_auth: %s', scheme, username, password, digest_auth)
+            self._client.add_auth(scheme, digest_auth)
+            self._client.default_acl = (acl,)
 
     def _kazoo_connect(self, host, port):
         """Kazoo is using Ping's to determine health of connection to zookeeper. If there is no

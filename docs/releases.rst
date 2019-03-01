@@ -3,7 +3,7 @@
 Release notes
 =============
 
-Version 1.5.5
+Version 1.5.5_2
 -------------
 
 This version introduces the possibility of automatic reinit of the former master, improves patronictl list output and fixes a number of bugs.

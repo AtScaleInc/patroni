@@ -3,7 +3,7 @@
 Release notes
 =============
 
-Version 1.5.6
+Version 1.5.6_1
 -------------
 
 **New features**

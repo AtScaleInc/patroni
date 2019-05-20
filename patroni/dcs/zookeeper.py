@@ -76,6 +76,19 @@ class ZooKeeper(AbstractDCS):
 
         self._client.start()
 
+        scheme = config.get('scheme', None)
+        if scheme:
+            from kazoo.security import make_digest_acl
+            username = config.get('username', None)
+            password = config.get('password', None)
+
+            digest_auth = "%s:%s" % (username, password)
+            acl = make_digest_acl(username, password, all=True)
+
+            logger.debug('add_auth for scheme: %s, username: %s, password: %s, digest_auth: %s', scheme, username, password, digest_auth)
+            self._client.add_auth(scheme, digest_auth)
+            self._client.default_acl = (acl,)
+            
     def _kazoo_connect(self, host, port):
         """Kazoo is using Ping's to determine health of connection to zookeeper. If there is no
         response on Ping after Ping interval (1/2 from read_timeout) it will consider current

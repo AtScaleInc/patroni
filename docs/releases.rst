@@ -3,7 +3,7 @@
 Release notes
 =============
 
-Version 1.6.3
+Version 1.6.3_1
 -------------
 
 **Bugfixes**
@@ -194,7 +194,7 @@ Version 1.6.1
 
 - Kill all children along with the callback process before starting the new one (Alexander Kukushkin)
 
-  Not doing so makes it hard to implement callbacks in bash and eventually can lead to the situation when two callbacks are running at the same time. 
+  Not doing so makes it hard to implement callbacks in bash and eventually can lead to the situation when two callbacks are running at the same time.
 
 - Fix 'start failed' issue (Alexander Kukushkin)
 

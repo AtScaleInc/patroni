@@ -124,6 +124,11 @@ Most of the parameters are optional, but you have to specify one of the **host**
 ZooKeeper
 ----------
 -  **hosts**: list of ZooKeeper cluster members in format: ['host1:port1', 'host2:port2', 'etc...'].
+-  **scheme**: (optional) scheme for ZooKeeper authentication .
+-  **digest** or **sasl** Note that "sasl" scheme is requiring "pure-sasl" library to be installed.
+-  **username**: (optional) username for ZooKeeper authentication.
+-  **password**: (optional) password for ZooKeeper authentication.
+
 
 Exhibitor
 ---------
